@@ -1,0 +1,10 @@
+# train and val data as 1) directory: path/images/, 2) file: path/images.txt, or 3) list: [path1/images/, path2/images/]
+train: ../datasets/defect_enhance/train.txt
+val: ../datasets/defect_enhance/val.txt
+test: ../datasets/defect_enhance/test.txt
+
+# number of classes
+nc: 3
+
+# class names
+names: ['PL','CJ','CR']
