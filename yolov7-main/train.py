@@ -535,7 +535,7 @@ if __name__ == '__main__':
     #指定超参数文件的路径
     parser.add_argument('--hyp', type=str, default='data/hyp.scratch.p5.yaml', help='hyperparameters path')
     #训练的轮数
-    parser.add_argument('--epochs', type=int, default=100)
+    parser.add_argument('--epochs', type=int, default=200)
     #每批次的输入数据量
     parser.add_argument('--batch-size', type=int, default=32, help='total batch size for all GPUs')
     #训练集和测试集图片的像素大小
@@ -585,7 +585,7 @@ if __name__ == '__main__':
     #用于调整学习率
     parser.add_argument('--linear-lr', action='store_true', help='linear LR')
     #是否对标签进行平滑处理，默认是不启用的
-    parser.add_argument('--label-smoothing', type=float, default=0, help='Label smoothing epsilon')
+    parser.add_argument('--label-smoothing', type=float, default=0.1, help='Label smoothing epsilon')
     parser.add_argument('--upload_dataset', action='store_true', help='Upload pipe as W&B artifact table')
     parser.add_argument('--bbox_interval', type=int, default=-1, help='Set bounding-box image logging interval for W&B')
     #用于设置多少个epoch保存一下checkpoint，int 型，默认为 -1
