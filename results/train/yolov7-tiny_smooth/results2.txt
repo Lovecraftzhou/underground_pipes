@@ -1,0 +1,8 @@
+Class      Images      Labels        P           R         mAP@.5      mAP@.5:.95
+ all         960        1302       0.961       0.985       0.983       0.802
+  PL         960         376       0.942       0.993       0.975        0.81
+  CJ         960         571       0.969        0.97       0.983       0.754
+  CR         960         355       0.972       0.992       0.992       0.843
+200 epochs completed in 15.830 hours.
+
+yolov7-tiny_smooth

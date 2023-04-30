@@ -1,0 +1,7 @@
+               Class      Images      Labels           P           R      mAP@.5  mAP@.5:.95:
+                 all         960        1271       0.981       0.991       0.998       0.953
+                  PL         960         388       0.984       0.979       0.998        0.95
+                  CJ         960         535       0.972       0.994       0.997       0.958
+                  CR         960         348       0.986           1       0.999       0.952
+Speed: 562.8/0.6/563.5 ms inference/NMS/total per 640x640 image at batch-size 32
+Results saved to runs\test\yolov7_default

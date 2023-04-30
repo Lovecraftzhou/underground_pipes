@@ -1,0 +1,7 @@
+               Class      Images      Labels           P           R      mAP@.5  mAP@.5:.95:
+                 all         960        1271       0.952       0.963       0.967       0.752
+                  PL         960         388        0.95       0.979       0.984       0.791
+                  CJ         960         535       0.933       0.918       0.924       0.625
+                  CR         960         348       0.972       0.991       0.993       0.839
+
+Speed: 113.3/0.6/113.9 ms inference/NMS/total per 640x640 image at batch-size 32
