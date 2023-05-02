@@ -341,7 +341,7 @@ def clip_coords(boxes, img_shape):
     boxes[:, 3].clamp_(0, img_shape[0])  # y2
 
 
-def bbox_iou(box1, box2, x1y1x2y2=True, GIoU=False, DIoU=False, CIoU=False, eps=1e-7):
+def bbox_iou(box1, box2, x1y1x2y2=True, GIoU=False, DIoU=False, CIoU=False, EIoU = False, eps=1e-7):
     # Returns the IoU of box1 to box2. box1 is 4, box2 is nx4
     box2 = box2.T
 
@@ -366,7 +366,7 @@ def bbox_iou(box1, box2, x1y1x2y2=True, GIoU=False, DIoU=False, CIoU=False, eps=
 
     iou = inter / union
 
-    if GIoU or DIoU or CIoU:
+    if GIoU or DIoU or CIoU or EIoU:
         cw = torch.max(b1_x2, b2_x2) - torch.min(b1_x1, b2_x1)  # convex (smallest enclosing box) width
         ch = torch.max(b1_y2, b2_y2) - torch.min(b1_y1, b2_y1)  # convex height
         if CIoU or DIoU:  # Distance or Complete IoU https://arxiv.org/abs/1911.08287v1
@@ -380,6 +380,11 @@ def bbox_iou(box1, box2, x1y1x2y2=True, GIoU=False, DIoU=False, CIoU=False, eps=
                 with torch.no_grad():
                     alpha = v / (v - iou + (1 + eps))
                 return iou - (rho2 / c2 + v * alpha)  # CIoU
+            elif EIoU:
+                w=(w1-w2)*(w1-w2)
+                h=(h1-h2)*(h1-h2)
+                return iou-(rho2/c2+w/(cw**2)+h/(ch**2))
+
         else:  # GIoU https://arxiv.org/pdf/1902.09630.pdf
             c_area = cw * ch + eps  # convex area
             return iou - (c_area - union) / c_area  # GIoU
@@ -880,7 +885,7 @@ def apply_classifier(x, model, img, im0):
 
 
 def increment_path(path, exist_ok=True, sep=''):
-    # Increment path, i.e. runs/exp --> runs/exp{sep}0, runs/exp{sep}1 etc.
+    # Increment path, i.e. runs/yolov7-tiny_EIoU --> runs/yolov7-tiny_EIoU{sep}0, runs/yolov7-tiny_EIoU{sep}1 etc.
     path = Path(path)  # os-agnostic
     if (path.exists() and exist_ok) or (not path.exists()):
         return str(path)

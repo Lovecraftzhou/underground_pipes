@@ -130,7 +130,7 @@ class FocalLoss(nn.Module):
 
     def forward(self, pred, true):
         loss = self.loss_fcn(pred, true)
-        # p_t = torch.exp(-loss)
+        # p_t = torch.yolov7-tiny_EIoU(-loss)
         # loss *= self.alpha * (1.000001 - p_t) ** self.gamma  # non-zero power for gradient stability
 
         # TF implementation https://github.com/tensorflow/addons/blob/v0.7.1/tensorflow_addons/losses/focal_loss.py
@@ -465,7 +465,7 @@ class ComputeLoss:
                 pxy = ps[:, :2].sigmoid() * 2. - 0.5
                 pwh = (ps[:, 2:4].sigmoid() * 2) ** 2 * anchors[i]
                 pbox = torch.cat((pxy, pwh), 1)  # predicted box
-                iou = bbox_iou(pbox.T, tbox[i], x1y1x2y2=False, CIoU=True)  # iou(prediction, target)
+                iou = bbox_iou(pbox.T, tbox[i], x1y1x2y2=False, EIoU=True)  # iou(prediction, target)
                 lbox += (1.0 - iou).mean()  # iou loss
 
                 # Objectness
@@ -603,7 +603,7 @@ class ComputeLossOTA:
                 pbox = torch.cat((pxy, pwh), 1)  # predicted box
                 selected_tbox = targets[i][:, 2:6] * pre_gen_gains[i]
                 selected_tbox[:, :2] -= grid
-                iou = bbox_iou(pbox.T, selected_tbox, x1y1x2y2=False, CIoU=True)  # iou(prediction, target)
+                iou = bbox_iou(pbox.T, selected_tbox, x1y1x2y2=False, EIoU=True)  # iou(prediction, target)
                 lbox += (1.0 - iou).mean()  # iou loss
 
                 # Objectness
@@ -928,7 +928,7 @@ class ComputeLossBinOTA:
                 
                 
                 
-                iou = bbox_iou(pbox.T, selected_tbox, x1y1x2y2=False, CIoU=True)  # iou(prediction, target)
+                iou = bbox_iou(pbox.T, selected_tbox, x1y1x2y2=False, EIoU=True)  # iou(prediction, target)
                 lbox += (1.0 - iou).mean()  # iou loss
 
                 # Objectness
@@ -1230,7 +1230,7 @@ class ComputeLossAuxOTA:
                 pbox = torch.cat((pxy, pwh), 1)  # predicted box
                 selected_tbox = targets[i][:, 2:6] * pre_gen_gains[i]
                 selected_tbox[:, :2] -= grid
-                iou = bbox_iou(pbox.T, selected_tbox, x1y1x2y2=False, CIoU=True)  # iou(prediction, target)
+                iou = bbox_iou(pbox.T, selected_tbox, x1y1x2y2=False, EIoU=True)  # iou(prediction, target)
                 lbox += (1.0 - iou).mean()  # iou loss
 
                 # Objectness
